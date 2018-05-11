@@ -26,3 +26,34 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.expression-input {
+  font-size: 20px;
+  padding: 5px 20px 5px 20px;
+  border-radius: 15px;
+  border: 1px solid rgb(40, 40, 40);
+  width: 60%;
+  text-align: center;
+}
+
+.postfix-map {
+  margin: 0;
+  list-style: none;
+  /* width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 5%; */
+  /* word-wrap: break-word; */
+}
+
+.postfix-item {
+  margin-left: 3%;
+  margin-right: 5%;
+  white-space: nowrap;
+  float: left;
+}
+
+.postfix-value {
+  color: red;
+  font-size: 20px;
+}

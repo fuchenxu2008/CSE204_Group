@@ -13,14 +13,14 @@ export const getOption = (data) => ({
       bottom: '20%',
       symbol: 'emptyCircle',
       orient: 'vertical',
-      expandAndCollapse: true,
+      expandAndCollapse: false,
       label: {
         normal: {
           position: 'top',
           rotate: 0,
           verticalAlign: 'middle',
           align: 'right',
-          fontSize: 11
+          fontSize: 20,
         }
       },
       leaves: {
@@ -29,7 +29,8 @@ export const getOption = (data) => ({
             position: 'bottom',
             rotate: 0,
             verticalAlign: 'middle',
-            align: 'center'
+            align: 'center',
+            fontSize: 20,
           }
         }
       },

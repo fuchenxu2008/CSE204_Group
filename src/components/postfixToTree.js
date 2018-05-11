@@ -1,95 +1,113 @@
-const postfixArr = require('./infixToPostfix');
-console.log('postfixArr: ', postfixArr);
+module.exports = postfixArr => {
+    const postfixMap = {};
+    postfixArr.forEach((char, index) => {
+      postfixMap[`x${index}`] = char;
+    });
+    console.log('postfixArr: ', postfixArr);
+    console.log('postfixMap: ', postfixMap);
 
-// const data = { value: '', children : { left: {}, right: {} } };
+    // const data = { value: '', children : { left: {}, right: {} } };
 
-const type = ele => isNaN(parseInt(ele)) ? 'operator' : 'number';
+    const type = ele => (isNaN(parseInt(ele, 10)) ? 'operator' : 'number');
 
-class TreeNode {
-    constructor(value, parent = null, left = null, right = null) {
+    class TreeNode {
+      constructor(value, parent = null, left = null, right = null) {
         this.parentNode = parent;
         this.value = value;
         this.leftChild = left;
         this.rightChild = right;
-    }
+      }
 
-    setParent(parent) {
+      setParent(parent) {
         this.parentNode = parent;
-    }
-    setLeft(left) {
+      }
+      setLeft(left) {
         this.leftChild = left;
-    }
-    setRight(right) {
+      }
+      setRight(right) {
         this.rightChild = right;
-    }
+      }
 
-    getValue() {
+      getValue() {
         return this.value;
-    } 
-    getParent() {
+      }
+      getParent() {
         return this.parentNode;
-    }
-    getLeft() {
+      }
+      getLeft() {
         return this.leftChild;
-    }
-    getRight() {
+      }
+      getRight() {
         return this.rightChild;
-    } 
+      }
 
-    isFull() {
+      isFull() {
         return this.rightChild && this.leftChild;
-    } 
-}
+      }
 
-let currentNode = null;
-let rootNode = null;
-
-postfixArr.reverse().forEach(char => {    
-    const node = new TreeNode(char);
-    // If root is not defined, make this node root
-    if (!rootNode) rootNode = node;
-
-
-    while (currentNode && currentNode.isFull()) {
-        currentNode = currentNode.getParent();
+      toJSON() {
+        let leftChild = '';
+        let rightChild = '';
+        let children = null;
+        if (this.getLeft()) leftChild = this.getLeft().toJSON();
+        if (this.getRight()) rightChild = this.getRight().toJSON();
+        if (this.getLeft() && this.getRight()) {
+          children = [leftChild, rightChild];
+        }
+        return { name: this.getValue(), children };
+      }
     }
 
+    let currentNode = null;
+    let rootNode = null;
 
+    postfixArr.reverse().forEach(char => {
+      const node = new TreeNode(char);
+      // If root is not defined, make this node root
+      if (!rootNode) rootNode = node;
 
-    if (type(char) === 'operator') {
-        if (currentNode) {//1
-            node.setParent(currentNode);
-            if (!currentNode.getRight()) {// 1.1
-                currentNode.setRight(node);
-                console.log(char, 'goes to 1.1');
+      while (currentNode && currentNode.isFull()) {
+        currentNode = currentNode.getParent();
+      }
+
+      if (type(char) === 'operator') {
+        if (currentNode) {
+          node.setParent(currentNode);
+          if (!currentNode.getRight()) {
+            currentNode.setRight(node);
+          } else {
+            if (type(currentNode
+                  .getRight()
+                  .getValue()) === 'operator' && !currentNode
+                .getRight()
+                .isFull() && !type(currentNode
+                  .getRight()
+                  .getValue()) === 'number') {
+              currentNode.setRight(node);
+              alert('xxxxxxxxxxxxxxx');
             } else {
-                console.log(type(currentNode.getRight().getValue()));
-                if (type(currentNode.getRight().getValue()) === 'operator' && !currentNode.getRight().isFull() && !type(currentNode.getRight().getValue()) === 'number') {//1.2
-                    currentNode.setRight(node);
-                    console.log(char, 'goes to 1.2');
-                } else {//1.3
-                    currentNode.setLeft(node);
-                    console.log(char, 'goes to 1.3');
-                }
+              currentNode.setLeft(node);
             }
+          }
         }
         currentNode = node;
-    } else {
+      } else {
         // Set number child
-        if (!currentNode.getRight()) {//2
-            currentNode.setRight(node);
-            console.log(char, 'goes to 2');
-        }
-        else {//3
-            currentNode.setLeft(node);
-            console.log(char, 'goes to 3');
+        if (!currentNode.getRight()) {
+          currentNode.setRight(node);
+        } else {
+          currentNode.setLeft(node);
         }
         // check if currentNode is full
-        if (currentNode.isFull()) {//4
-            console.log(char, 'goes to 4');
-            currentNode = currentNode.getParent();
+        if (currentNode.isFull()) {
+          currentNode = currentNode.getParent();
         }
-    }
-});
+      }
+    });
 
-console.log(rootNode.getLeft().getRight());
+    return {
+      postfixArr,
+      postfixMap,
+      treeData: rootNode.toJSON(),
+    }
+}
