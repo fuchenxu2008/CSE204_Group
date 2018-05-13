@@ -76,18 +76,7 @@ module.exports = postfixArr => {
           if (!currentNode.getRight()) {
             currentNode.setRight(node);
           } else {
-            if (type(currentNode
-                  .getRight()
-                  .getValue()) === 'operator' && !currentNode
-                .getRight()
-                .isFull() && !type(currentNode
-                  .getRight()
-                  .getValue()) === 'number') {
-              currentNode.setRight(node);
-              alert('xxxxxxxxxxxxxxx');
-            } else {
-              currentNode.setLeft(node);
-            }
+            currentNode.setLeft(node);
           }
         }
         currentNode = node;
