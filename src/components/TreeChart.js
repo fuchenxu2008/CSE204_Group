@@ -38,7 +38,7 @@ export default class TreeChart extends Component {
             ? (
               <div>
                 <h3>Result: {result}</h3>
-                <small>The function took <span style={{ color: 'red' }}>{runningTime}</span> milliseconds</small>
+                <small>Given input size of <span style={{ color: 'red' }}>{infixExpression.split(' ').join('').length}</span> elements, the function took <span style={{ color: 'red' }}>{runningTime}</span> milliseconds</small>
                 <ReactEcharts
                     option={getOption(data.treeData)}
                     notMerge={true}
