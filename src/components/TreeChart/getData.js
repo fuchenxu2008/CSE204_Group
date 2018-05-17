@@ -1,5 +1,5 @@
-const getPostfixData = require('./infixToPostfix');
-const getTreeData = require('./postfixToTree');
+const getPostfixData = require('../../generateTree/infixToPostfix');
+const getTreeData = require('../../generateTree/postfixToTree');
 
 module.exports = {
     getData: infixExpression => {

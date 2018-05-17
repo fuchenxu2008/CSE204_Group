@@ -34,7 +34,7 @@ export default class TreeChart extends Component {
       <div>
         <input type="text" className="expression-input" value={infixExpression} onChange={this.handleInputChange} />
         {
-          !error && result && !isNaN(result) && runningTime && data.postfixMap
+          !error && (result || result === 0) && !isNaN(result) && runningTime && data.postfixMap
             ? (
               <div>
                 <h3>Result: {result}</h3>
